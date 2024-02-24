@@ -22,10 +22,7 @@ class _CategorySectionState extends State<CategorySection> {
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () async{
-             ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text("Loading ${Const.categoryName[index]} news...")),
-              );
-              await context.read<CnewsCubit>()..getNews(false, Const.categoryName[index]).then((_){
+              await context.read<CnewsCubit>()..getNews(true, Const.categoryName[index]).then((_){
                 Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) {
                   return CategoryScreen();

@@ -78,13 +78,13 @@ class _SlideSectionState extends State<SlideSection> {
                                 borderRadius: BorderRadius.only(
                                     bottomLeft: Radius.circular(20),
                                     bottomRight: Radius.circular(20))),
-                            child: Text(
+                            child: news.articles![index].title!=null? Text(
                               news.articles![index].title.toString(),
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold),
-                            ),
+                            ):Text("..."),
                           )
                         ]),
                       ),

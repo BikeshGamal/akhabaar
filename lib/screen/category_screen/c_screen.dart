@@ -18,7 +18,7 @@ class _TrendingSectionState extends State<Cscreen> {
     return BlocBuilder<CnewsCubit, CommonState>(
       builder: (context, state) {
         if (state is CommonLoadingState) {
-          return CircularProgressIndicator();
+          return Center(child: CircularProgressIndicator());
         } else if (state is CommonErrorState) {
           return Center(
             child: Text("Something went wrong"),
@@ -34,68 +34,67 @@ class _TrendingSectionState extends State<Cscreen> {
             shrinkWrap: true,
             itemBuilder: (context, index) {
               return Padding(
-                
                 padding: const EdgeInsets.only(top: 10),
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder:(context) {
-                      return WebNews(url: news.articles![index].url!);
-                    },));
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) {
+                        return WebNews(url: news.articles![index].url!);
+                      },
+                    ));
                   },
                   child: Card(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: news.articles![index].urlToImage != null
-                                ? Image.network(
-                                    news.articles![index].urlToImage.toString(),
-                                    height: 100,
-                                    width: 100,
-                                    fit: BoxFit.cover,
-                                  )
-                                : ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
-                                    child: Image.asset(
-                                      Const.general,
-                                      height: 100,
-                                      width: 100,
-                                      fit: BoxFit.cover,
-                                    )),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    news.articles![index].title.toString(),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.justify,
-                                    style: TextStyle(
-                                        color: Const.fontColor,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    news.articles![index].description.toString(),
-                                    maxLines: 3,
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.justify,
-                                    style: TextStyle(
-                                        color: Const.grey, fontSize: 12),
-                                  ),
-                                ],
-                              ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: news.articles![index].urlToImage != null
+                          ? Image.network(
+                              news.articles![index].urlToImage.toString(),
+                              height: MediaQuery.of(context).size.height*0.25,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            )
+                          : ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.asset(
+                                Const.general,
+                               height: MediaQuery.of(context).size.height*0.25,
+                              width: double.infinity,
+                                fit: BoxFit.cover,
+                              )),
+                              
+                                            ),
+                                            SizedBox(height: 20,),
+                            news.articles![index].title!=null?Text(
+                              news.articles![index].title.toString(),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                                  color: Const.fontColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16),
+                            ):Text("..."),
+                            SizedBox(
+                              height: 5,
                             ),
-                          )
-                        ],
+                            news.articles![index].description!=null?Text(
+                              news.articles![index].description
+                                  .toString(),
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                                  color: Const.grey, fontSize: 12),
+                            ):Text("..."),
+                          ],
+                        ),
                       ),
                     ),
                   ),

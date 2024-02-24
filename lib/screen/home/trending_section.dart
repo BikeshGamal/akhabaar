@@ -79,7 +79,9 @@ class _TrendingSectionState extends State<TrendingSection> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
+                                      news.articles![index].title!=null?
                                       Text(
                                         news.articles![index].title.toString(),
                                         maxLines: 2,
@@ -89,10 +91,11 @@ class _TrendingSectionState extends State<TrendingSection> {
                                             color: Const.fontColor,
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16),
-                                      ),
+                                      ):Text("..."),
                                       SizedBox(
                                         height: 5,
                                       ),
+                                      news.articles![index].description!=null?
                                       Text(
                                         news.articles![index].description.toString(),
                                         maxLines: 3,
@@ -100,7 +103,7 @@ class _TrendingSectionState extends State<TrendingSection> {
                                         textAlign: TextAlign.justify,
                                         style: TextStyle(
                                             color: Const.grey, fontSize: 12),
-                                      ),
+                                      ):Text("..."),
                                     ],
                                   ),
                                 ),
