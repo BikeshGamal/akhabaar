@@ -29,32 +29,32 @@ class NewsModel {
 
 class Articles {
   Source? source;
-  String? author;
+  String author;
   String? title;
   String? description;
-  String? url;
+  String url;
   String? urlToImage;
-  String? publishedAt;
-  String? content;
+  String publishedAt;
+  String content;
 
   Articles(
-      {this.source,
-      this.author,
+      {required this.source,
+      required this.author,
       this.title,
       this.description,
-      this.url,
+      required this.url,
       this.urlToImage,
-      this.publishedAt,
-      this.content});
+      required this.publishedAt,
+      required this.content});
 
-  Articles.fromJson(Map<String, dynamic> json) {
+  Articles.fromJson(Map<String, dynamic> json):author="",content="",publishedAt="",url="" {
     source =
         json['source'] != null ? new Source.fromJson(json['source']) : null;
     author = json['author']??"...";
     title = json['title']??"...";
     description = json['description']??"...";
-    url = json['url']??"...";
-    urlToImage = json['urlToImage']??"...";
+    url = json['url'];
+    urlToImage = json['urlToImage'];
     publishedAt = json['publishedAt']??"...";
     content = json['content']??"...";
   }
