@@ -25,7 +25,7 @@ class _CategorySectionState extends State<CategorySection> {
                 Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) {
                   context.read<NewsCubit>()..getNews(true, Const.categoryName[index]);
-                  return CategoryScreen();
+                  return CategoryScreen(category:Const.categoryName[index]);
                 },
               ));
              

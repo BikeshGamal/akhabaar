@@ -76,10 +76,9 @@ class _TrendingSectionState extends State<Cscreen> {
           );
         } else if (state is CommonSuccessState) {
           final news = state.newsModel;
-          return ListView.builder(
-            itemCount: news.articles?.length,
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
+          return CustomScrollView(
+            slivers: [
+            SliverList.builder(itemBuilder:(context, index) {
               return Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: GestureDetector(
@@ -147,7 +146,7 @@ class _TrendingSectionState extends State<Cscreen> {
                   ),
                 ),
               );
-            },
+            }, itemCount: news.articles!.length)]
           );
         } else {
           return Container();

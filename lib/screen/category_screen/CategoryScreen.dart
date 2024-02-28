@@ -4,7 +4,8 @@ import 'package:khabar/constant/const.dart';
 import 'package:khabar/screen/category_screen/c_screen.dart';
 
 class CategoryScreen extends StatefulWidget {
-  const CategoryScreen();
+  final String category;
+  const CategoryScreen({required this.category});
 
   @override
   State<CategoryScreen> createState() => _CategoryScreenState();
@@ -29,7 +30,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 fontWeight: FontWeight.bold),
             children: [
               TextSpan(
-                  text: "BaaR", style: TextStyle(color: Const.secondaryColor))
+                  text: "BaaR", style: TextStyle(color: Const.secondaryColor)),
+                  TextSpan(
+                  text: "(${widget.category})", style: TextStyle(color: Const.primaryColor))
             ],
           ),
         ),
