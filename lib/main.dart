@@ -1,9 +1,11 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:khabar/api_services/cubit/cnews_cubit.dart';
+import 'package:khabar/api_services/cubit/breaking_cubit.dart';
 import 'package:khabar/api_services/cubit/news_cubit.dart';
-import 'package:khabar/api_services/cubit/tnews_cubit.dart';
-import 'package:khabar/screen/splash_Screen.dart';
+import 'package:khabar/api_services/cubit/trending_cubit.dart';
+import 'package:khabar/api_services/repository/news_repostiory.dart';
+import 'package:khabar/screen/splash/splash_Screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,21 +16,27 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => NewsCubit()..getNews(true, "science"),
+    final Dio dio = Dio();
+    return RepositoryProvider(
+      create: (context) => NewsRepository(dio: dio),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) =>
+                NewsCubit(repository: context.read<NewsRepository>()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                TrendingCubit(repository: context.read<NewsRepository>()),
+          ), BlocProvider(
+            create: (context) =>
+                BreakingCubit(repository: context.read<NewsRepository>()),
+          ),
+        ],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: SplashScreen(),
         ),
-        BlocProvider(
-          create: (context) => TnewsCubit()..getNews(false, "technology")
-        ),
-         BlocProvider(
-          create: (context) => CnewsCubit()
-        ),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: SplashScreen(),
       ),
     );
   }

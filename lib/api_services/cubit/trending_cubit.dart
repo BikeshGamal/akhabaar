@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:khabar/api_services/cubit/news_state.dart';
 import 'package:khabar/api_services/repository/news_repostiory.dart';
 
-class NewsCubit extends Cubit<CommonState> {
+class TrendingCubit extends Cubit<CommonState> {
   final NewsRepository repository;
-  NewsCubit({required this.repository}) : super(CommonInitialState());
+  TrendingCubit({required this.repository}) : super(CommonInitialState());
   Future<bool> _isNetworkAvailable() async {
     var connectivityResult = await Connectivity().checkConnectivity();
     return connectivityResult != ConnectivityResult.none;

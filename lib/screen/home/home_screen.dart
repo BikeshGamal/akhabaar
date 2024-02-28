@@ -39,21 +39,28 @@ class _HomeScreenState extends State<HomeScreen> {
             CategorySection(),
             Expanded(
               flex: 7,
-              child: ListView(
-                children: [
-                  Text(
-                    "science News",
-                    style: GoogleFonts.lacquer(
-                        fontSize: 28, fontWeight: FontWeight.bold),
+              child: CustomScrollView(
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Text(
+                      "Breaking News",
+                      style: GoogleFonts.lacquer(
+                          fontSize: 28, fontWeight: FontWeight.bold),
+                    ),
                   ),
-                  SizedBox(
-                    height: 10,
+                  SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: 10,
+                    ),
                   ),
-                  SlideSection(),
-                  SizedBox(
-                    height: 20,
+                  SliverToBoxAdapter(child: SlideSection(category: "science",)),
+                  SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: 20,
+                    ),
                   ),
-                  TrendingSection()
+                   SliverToBoxAdapter(child: TrendingSection(category:"technology"))
+                   
                 ],
               ),
             )

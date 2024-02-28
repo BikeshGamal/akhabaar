@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:khabar/constant/const.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebNews extends StatefulWidget {
@@ -12,6 +13,7 @@ class WebNews extends StatefulWidget {
 }
 
 class _WebNewsState extends State<WebNews> {
+    bool isPageLoaded = false;
   double webProgress=0;
   @override
   Widget build(BuildContext context) {
@@ -36,22 +38,24 @@ class _WebNewsState extends State<WebNews> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            SizedBox(
-              height: 5,
-              child: LinearProgressIndicator(
-                value: webProgress,
-                color: Colors.red,
-                backgroundColor: Colors.blue,
-              ),
-            ),
+          !isPageLoaded
+              ? Shimmer.fromColors(
+                  baseColor: Colors.blue,
+                  highlightColor: Colors.red,
+                  child: Container(
+                    height: 10,
+                    color: Colors.white,
+                  ),
+                )
+              : SizedBox(),
             Container(
               child: Expanded(
                 child: WebView(
-                  onProgress: (progress) {
-                    setState(() {
-                      this.webProgress=progress/100;
-                    });
-                  },
+                  onPageFinished: (url) {
+                setState(() {
+                  isPageLoaded = true;
+                });
+              },
                   initialUrl: widget.url,
                   javascriptMode: JavascriptMode.unrestricted,
                 ),

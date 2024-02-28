@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:khabar/api_services/cubit/cnews_cubit.dart';
+import 'package:khabar/api_services/cubit/news_cubit.dart';
 import 'package:khabar/constant/const.dart';
 import 'package:khabar/screen/category_screen/CategoryScreen.dart';
 
@@ -22,13 +22,13 @@ class _CategorySectionState extends State<CategorySection> {
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () async{
-              await context.read<CnewsCubit>()..getNews(true, Const.categoryName[index]).then((_){
                 Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) {
+                  context.read<NewsCubit>()..getNews(true, Const.categoryName[index]);
                   return CategoryScreen();
                 },
               ));
-              });
+             
               
             },
             child: Container(

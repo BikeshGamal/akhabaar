@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:khabar/api_services/cubit/cnews_cubit.dart';
+import 'package:khabar/api_services/cubit/news_cubit.dart';
 import 'package:khabar/api_services/cubit/news_state.dart';
 import 'package:khabar/constant/const.dart';
 import 'package:khabar/screen/web/web_news.dart';
+import 'package:shimmer/shimmer.dart';
 
 class Cscreen extends StatefulWidget {
   const Cscreen();
@@ -15,11 +16,57 @@ class Cscreen extends StatefulWidget {
 class _TrendingSectionState extends State<Cscreen> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CnewsCubit, CommonState>(
+    return BlocBuilder<NewsCubit, CommonState>(
       builder: (context, state) {
-        if (state is CommonLoadingState) {
-          return Center(child: CircularProgressIndicator());
-        } else if (state is CommonErrorState) {
+       if (state is CommonLoadingState) {
+  return SizedBox(
+    width: double.infinity,
+    height: MediaQuery.of(context).size.height * 1,
+    child: Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: ListView.builder(
+        itemCount: 5, 
+        itemBuilder: (context, index) {
+          return Card(
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Container(
+              padding: EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.25,
+                      width: double.infinity,
+                      color: Colors.white, 
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Container(
+                    height: 20, 
+                    width: double.infinity,
+                    color: Colors.white, 
+                  ),
+                  SizedBox(height: 5),
+                  Container(
+                    height: 15, 
+                    width: double.infinity,
+                    color: Colors.white, 
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    ),
+  );
+} else if (state is CommonErrorState) {
           return Center(
             child: Text("Something went wrong"),
           );
@@ -39,7 +86,7 @@ class _TrendingSectionState extends State<Cscreen> {
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) {
-                        return WebNews(url: news.articles![index].url!);
+                        return WebNews(url: news.articles![index].url);
                       },
                     ));
                   },

@@ -1,24 +1,32 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:khabar/api_services/cubit/news_cubit.dart';
+import 'package:khabar/api_services/cubit/breaking_cubit.dart';
 import 'package:khabar/api_services/cubit/news_state.dart';
 import 'package:khabar/constant/const.dart';
 import 'package:khabar/screen/web/web_news.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class SlideSection extends StatefulWidget {
-  const SlideSection({super.key});
+  final String category;
+  const SlideSection({required this.category,super.key});
 
   @override
   State<SlideSection> createState() => _SlideSectionState();
 }
 
 class _SlideSectionState extends State<SlideSection> {
+  @override
+void initState() {
+  super.initState();
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    BlocProvider.of<BreakingCubit>(context).getNews(true,widget.category);
+  });
+}
   int activeIndex = 0;
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NewsCubit, CommonState>(
+    return BlocBuilder<BreakingCubit, CommonState>(
       builder: (context, state) {
         if (state is NoNetworkState) {
           return Column(
@@ -48,9 +56,10 @@ class _SlideSectionState extends State<SlideSection> {
                   itemBuilder: (context, index, realIndex) {
                     return GestureDetector(
                       onTap: () {
+                            
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) {
-                            return WebNews(url: news.articles![index].url!);
+                            return WebNews(url: news.articles![index].url);
                           },
                         ));
                       },
@@ -78,13 +87,15 @@ class _SlideSectionState extends State<SlideSection> {
                                 borderRadius: BorderRadius.only(
                                     bottomLeft: Radius.circular(20),
                                     bottomRight: Radius.circular(20))),
-                            child: news.articles![index].title!=null? Text(
-                              news.articles![index].title.toString(),
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
-                            ):Text("..."),
+                            child: news.articles![index].title != null
+                                ? Text(
+                                    news.articles![index].title.toString(),
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                : Text("..."),
                           )
                         ]),
                       ),
