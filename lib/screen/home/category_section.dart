@@ -21,15 +21,14 @@ class _CategorySectionState extends State<CategorySection> {
         shrinkWrap: true,
         itemBuilder: (context, index) {
           return GestureDetector(
-            onTap: () async{
-                Navigator.of(context).push(MaterialPageRoute(
+            onTap: () async {
+              Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) {
-                  context.read<NewsCubit>()..getNews(true, Const.categoryName[index]);
-                  return CategoryScreen(category:Const.categoryName[index]);
+                  context.read<NewsCubit>()
+                    ..getNews(true, Const.categoryName[index]);
+                  return CategoryScreen(category: Const.categoryName[index]);
                 },
               ));
-             
-              
             },
             child: Container(
               margin: EdgeInsets.only(right: 16),

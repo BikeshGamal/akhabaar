@@ -17,9 +17,12 @@ class _CategoryScreenState extends State<CategoryScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        leading: IconButton(onPressed: ()async {
-          Navigator.pop(context);
-        },icon: Icon(Icons.keyboard_arrow_left_outlined),),
+        leading: IconButton(
+          onPressed: () async {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.keyboard_arrow_left_outlined),
+        ),
         centerTitle: true,
         title: RichText(
           text: TextSpan(
@@ -31,8 +34,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
             children: [
               TextSpan(
                   text: "BaaR", style: TextStyle(color: Const.secondaryColor)),
-                  TextSpan(
-                  text: "(${widget.category})", style: TextStyle(color: Const.primaryColor))
+              TextSpan(
+                  text: "(${widget.category})",
+                  style: TextStyle(color: Const.primaryColor))
             ],
           ),
         ),

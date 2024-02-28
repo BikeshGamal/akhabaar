@@ -4,6 +4,6 @@ class SplashCubit extends Cubit<bool> {
   SplashCubit() : super(true);
 
   void navigateToHome() {
-    emit(false); 
+    emit(false);
   }
 }

@@ -9,7 +9,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class SlideSection extends StatefulWidget {
   final String category;
-  const SlideSection({required this.category,super.key});
+  const SlideSection({required this.category, super.key});
 
   @override
   State<SlideSection> createState() => _SlideSectionState();
@@ -17,12 +17,13 @@ class SlideSection extends StatefulWidget {
 
 class _SlideSectionState extends State<SlideSection> {
   @override
-void initState() {
-  super.initState();
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    BlocProvider.of<BreakingCubit>(context).getNews(true,widget.category);
-  });
-}
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      BlocProvider.of<BreakingCubit>(context).getNews(true, widget.category);
+    });
+  }
+
   int activeIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -56,7 +57,6 @@ void initState() {
                   itemBuilder: (context, index, realIndex) {
                     return GestureDetector(
                       onTap: () {
-                            
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) {
                             return WebNews(url: news.articles![index].url);

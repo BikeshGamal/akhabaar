@@ -53,14 +53,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 10,
                     ),
                   ),
-                  SliverToBoxAdapter(child: SlideSection(category: "science",)),
+                  SliverToBoxAdapter(
+                      child: SlideSection(
+                    category: "science",
+                  )),
                   SliverToBoxAdapter(
                     child: SizedBox(
                       height: 20,
                     ),
                   ),
-                   SliverToBoxAdapter(child: TrendingSection(category:"technology"))
-                   
+                  SliverToBoxAdapter(
+                      child: TrendingSection(category: "technology"))
                 ],
               ),
             )

@@ -10,6 +10,7 @@ class TrendingCubit extends Cubit<CommonState> {
     var connectivityResult = await Connectivity().checkConnectivity();
     return connectivityResult != ConnectivityResult.none;
   }
+
   getNews(bool showLoading, String category) async {
     if (await _isNetworkAvailable()) {
       if (showLoading == true) {

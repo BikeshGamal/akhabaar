@@ -50,92 +50,106 @@ class _TrendingSectionState extends State<TrendingSection> {
                         fontSize: 28, fontWeight: FontWeight.bold),
                   ),
                 ),
-                SliverList.builder(itemBuilder:(context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) {
-                            return WebNews(url: news.articles![index].url);
+                SliverList.builder(
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) {
+                                return WebNews(url: news.articles![index].url);
+                              },
+                            ));
                           },
-                        ));
-                      },
-                      child: Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: news.articles![index].urlToImage != null
-                                    ? Image.network(
-                                        news.articles![index].urlToImage
-                                            .toString(),
-                                        height: 100,
-                                        width: 100,
-                                        fit: BoxFit.cover,
-                                      )
-                                    : ClipRRect(
-                                        borderRadius: BorderRadius.circular(12),
-                                        child: Image.asset(
-                                          Const.general,
-                                          height: 100,
-                                          width: 100,
-                                          fit: BoxFit.cover,
-                                        )),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    news.articles![index].title != null
-                                        ? Container(
-                                          width:MediaQuery.of(context).size.width*0.60,
-                                          child: Text(
-                                              news.articles![index].title
-                                                  .toString(),
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                              textAlign: TextAlign.justify,
-                                              style: TextStyle(
-                                                  color: Const.fontColor,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16),
-                                            ),
-                                        )
-                                        : Text("..."),
-                                    SizedBox(
-                                      height: 5,
+                          child: Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child:
+                                        news.articles![index].urlToImage != null
+                                            ? Image.network(
+                                                news.articles![index].urlToImage
+                                                    .toString(),
+                                                height: 100,
+                                                width: 100,
+                                                fit: BoxFit.cover,
+                                              )
+                                            : ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                child: Image.asset(
+                                                  Const.general,
+                                                  height: 100,
+                                                  width: 100,
+                                                  fit: BoxFit.cover,
+                                                )),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        news.articles![index].title != null
+                                            ? Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.60,
+                                                child: Text(
+                                                  news.articles![index].title
+                                                      .toString(),
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  textAlign: TextAlign.justify,
+                                                  style: TextStyle(
+                                                      color: Const.fontColor,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 16),
+                                                ),
+                                              )
+                                            : Text("..."),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        news.articles![index].description !=
+                                                null
+                                            ? Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.60,
+                                                child: Text(
+                                                  news.articles![index]
+                                                      .description
+                                                      .toString(),
+                                                  maxLines: 3,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  textAlign: TextAlign.justify,
+                                                  style: TextStyle(
+                                                      color: Const.grey,
+                                                      fontSize: 12),
+                                                ),
+                                              )
+                                            : Text("..."),
+                                      ],
                                     ),
-                                    news.articles![index].description != null
-                                        ? Container(
-                                          width:MediaQuery.of(context).size.width*0.60,
-                                          child: Text(
-                                              news.articles![index].description
-                                                  .toString(),
-                                              maxLines: 3,
-                                              overflow: TextOverflow.ellipsis,
-                                              textAlign: TextAlign.justify,
-                                              style: TextStyle(
-                                                  color: Const.grey,
-                                                  fontSize: 12),
-                                            ),
-                                        )
-                                        : Text("..."),
-                                  ],
-                                ),
-                              )
-                            ],
+                                  )
+                                ],
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  );
-                },
-                  itemCount: news.articles!.length
-                ),
+                      );
+                    },
+                    itemCount: news.articles!.length),
               ],
             ),
           );
