@@ -1,9 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:khabar/api_services/cubit/breaking_cubit.dart';
 import 'package:khabar/api_services/cubit/news_cubit.dart';
-import 'package:khabar/api_services/cubit/trending_cubit.dart';
 import 'package:khabar/api_services/repository/news_repostiory.dart';
 import 'package:khabar/screen/splash/splash_Screen.dart';
 
@@ -24,13 +22,6 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             create: (context) =>
                 NewsCubit(repository: context.read<NewsRepository>()),
-          ),
-          BlocProvider(
-            create: (context) =>
-                TrendingCubit(repository: context.read<NewsRepository>()),
-          ), BlocProvider(
-            create: (context) =>
-                BreakingCubit(repository: context.read<NewsRepository>()),
           ),
         ],
         child: MaterialApp(

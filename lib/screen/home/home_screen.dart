@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:khabar/api_services/cubit/news_cubit.dart';
+import 'package:khabar/api_services/repository/news_repostiory.dart';
 import 'package:khabar/constant/const.dart';
 import 'package:khabar/screen/home/category_section.dart';
 import 'package:khabar/screen/home/slide_section.dart';
@@ -53,17 +56,29 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 10,
                     ),
                   ),
-                  SliverToBoxAdapter(
+                  SliverToBoxAdapter(child: Builder(builder: (context) {
+                    return BlocProvider(
+                      create: (context) =>
+                          NewsCubit(repository: context.read<NewsRepository>())
+                            ..getNews(true, "science"),
                       child: SlideSection(
-                    category: "science",
-                  )),
+                        category: "science",
+                      ),
+                    );
+                  })),
                   SliverToBoxAdapter(
                     child: SizedBox(
                       height: 20,
                     ),
                   ),
-                  SliverToBoxAdapter(
-                      child: TrendingSection(category: "technology"))
+                  SliverToBoxAdapter(child: Builder(builder: (context) {
+                    return BlocProvider(
+                      create: (context) =>
+                          NewsCubit(repository: context.read<NewsRepository>())
+                            ..getNews(false, "technology"),
+                      child: TrendingSection(category: "technology"),
+                    );
+                  }))
                 ],
               ),
             )

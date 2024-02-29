@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:khabar/api_services/cubit/news_cubit.dart';
+import 'package:khabar/api_services/repository/news_repostiory.dart';
 import 'package:khabar/constant/const.dart';
 import 'package:khabar/screen/category_screen/CategoryScreen.dart';
 
@@ -12,13 +13,21 @@ class CategorySection extends StatefulWidget {
 }
 
 class _CategorySectionState extends State<CategorySection> {
+   late NewsCubit _newsCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    _newsCubit = NewsCubit(repository: context.read<NewsRepository>());
+    _newsCubit.getNews(true, "science");
+    _newsCubit.getNews(true, "technology");
+  }
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: Const.categoryName.length,
-        shrinkWrap: true,
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () async {

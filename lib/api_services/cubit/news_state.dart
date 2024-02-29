@@ -6,11 +6,13 @@ class CommonInitialState extends CommonState {}
 
 class CommonLoadingState extends CommonState {}
 
-class CommonErrorState extends CommonState {}
+class CommonErrorState extends CommonState {
+  final String msg;
+  CommonErrorState({required this.msg});
+}
 
-class NoNetworkState extends CommonState {}
 
 class CommonSuccessState extends CommonState {
-  final NewsModel newsModel;
+  final List<Articles?> newsModel;
   CommonSuccessState({required this.newsModel});
 }

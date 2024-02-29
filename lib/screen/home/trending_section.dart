@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:khabar/api_services/cubit/news_cubit.dart';
 import 'package:khabar/api_services/cubit/news_state.dart';
-import 'package:khabar/api_services/cubit/trending_cubit.dart';
 import 'package:khabar/constant/const.dart';
 import 'package:khabar/screen/web/web_news.dart';
 
@@ -15,28 +15,19 @@ class TrendingSection extends StatefulWidget {
 }
 
 class _TrendingSectionState extends State<TrendingSection> {
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      BlocProvider.of<TrendingCubit>(context).getNews(true, widget.category);
-    });
-  }
+  
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TrendingCubit, CommonState>(
+    return BlocBuilder<NewsCubit, CommonState>(
       builder: (context, state) {
         if (state is CommonLoadingState) {
           return Container();
         } else if (state is CommonErrorState) {
           return Center(
-            child: Text("Something went wrong"),
+            child: Text(""),
           );
-        } else if (state is NoNetworkState) {
-          return Center(
-            child: Text("no connection avalable"),
-          );
-        } else if (state is CommonSuccessState) {
+        }  else if (state is CommonSuccessState) {
           final news = state.newsModel;
           return Container(
             height: 580,
@@ -58,7 +49,7 @@ class _TrendingSectionState extends State<TrendingSection> {
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) {
-                                return WebNews(url: news.articles![index].url);
+                                return WebNews(url: news[index]!.url);
                               },
                             ));
                           },
@@ -70,9 +61,9 @@ class _TrendingSectionState extends State<TrendingSection> {
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(12),
                                     child:
-                                        news.articles![index].urlToImage != null
+                                        news[index]!.urlToImage != null
                                             ? Image.network(
-                                                news.articles![index].urlToImage
+                                                news[index]!.urlToImage
                                                     .toString(),
                                                 height: 100,
                                                 width: 100,
@@ -94,14 +85,14 @@ class _TrendingSectionState extends State<TrendingSection> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        news.articles![index].title != null
+                                        news[index]!.title != null
                                             ? Container(
                                                 width: MediaQuery.of(context)
                                                         .size
                                                         .width *
                                                     0.60,
                                                 child: Text(
-                                                  news.articles![index].title
+                                                  news[index]!.title
                                                       .toString(),
                                                   maxLines: 2,
                                                   overflow:
@@ -118,7 +109,7 @@ class _TrendingSectionState extends State<TrendingSection> {
                                         SizedBox(
                                           height: 5,
                                         ),
-                                        news.articles![index].description !=
+                                        news[index]!.description !=
                                                 null
                                             ? Container(
                                                 width: MediaQuery.of(context)
@@ -126,7 +117,7 @@ class _TrendingSectionState extends State<TrendingSection> {
                                                         .width *
                                                     0.60,
                                                 child: Text(
-                                                  news.articles![index]
+                                                  news[index]!
                                                       .description
                                                       .toString(),
                                                   maxLines: 3,
@@ -149,7 +140,7 @@ class _TrendingSectionState extends State<TrendingSection> {
                         ),
                       );
                     },
-                    itemCount: news.articles!.length),
+                    itemCount: news.length),
               ],
             ),
           );

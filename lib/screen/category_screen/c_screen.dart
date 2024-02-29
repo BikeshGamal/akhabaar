@@ -70,10 +70,6 @@ class _TrendingSectionState extends State<Cscreen> {
           return Center(
             child: Text("Something went wrong"),
           );
-        } else if (state is NoNetworkState) {
-          return Center(
-            child: Text("no connection avalable"),
-          );
         } else if (state is CommonSuccessState) {
           final news = state.newsModel;
           return CustomScrollView(slivers: [
@@ -85,7 +81,7 @@ class _TrendingSectionState extends State<Cscreen> {
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) {
-                            return WebNews(url: news.articles![index].url);
+                            return WebNews(url: news[index]!.url);
                           },
                         ));
                       },
@@ -100,9 +96,9 @@ class _TrendingSectionState extends State<Cscreen> {
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(12),
                                   child:
-                                      news.articles![index].urlToImage != null
+                                      news[index]!.urlToImage != null
                                           ? Image.network(
-                                              news.articles![index].urlToImage
+                                              news[index]!.urlToImage
                                                   .toString(),
                                               height: MediaQuery.of(context)
                                                       .size
@@ -127,9 +123,9 @@ class _TrendingSectionState extends State<Cscreen> {
                                 SizedBox(
                                   height: 20,
                                 ),
-                                news.articles![index].title != null
+                                news[index]!.title != null
                                     ? Text(
-                                        news.articles![index].title.toString(),
+                                        news[index]!.title.toString(),
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
                                         textAlign: TextAlign.justify,
@@ -142,9 +138,9 @@ class _TrendingSectionState extends State<Cscreen> {
                                 SizedBox(
                                   height: 5,
                                 ),
-                                news.articles![index].description != null
+                                news[index]!.description != null
                                     ? Text(
-                                        news.articles![index].description
+                                        news[index]!.description
                                             .toString(),
                                         maxLines: 3,
                                         overflow: TextOverflow.ellipsis,
@@ -161,7 +157,7 @@ class _TrendingSectionState extends State<Cscreen> {
                     ),
                   );
                 },
-                itemCount: news.articles!.length)
+                itemCount: news.length)
           ]);
         } else {
           return Container();

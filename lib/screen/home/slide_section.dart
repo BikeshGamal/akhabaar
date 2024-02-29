@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:khabar/api_services/cubit/breaking_cubit.dart';
+import 'package:khabar/api_services/cubit/news_cubit.dart';
 import 'package:khabar/api_services/cubit/news_state.dart';
 import 'package:khabar/constant/const.dart';
 import 'package:khabar/screen/web/web_news.dart';
@@ -16,33 +16,14 @@ class SlideSection extends StatefulWidget {
 }
 
 class _SlideSectionState extends State<SlideSection> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      BlocProvider.of<BreakingCubit>(context).getNews(true, widget.category);
-    });
-  }
+ 
 
   int activeIndex = 0;
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BreakingCubit, CommonState>(
+    return BlocBuilder<NewsCubit, CommonState>(
       builder: (context, state) {
-        if (state is NoNetworkState) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Center(
-                child: Text("No network connectivity"),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              CircularProgressIndicator(),
-            ],
-          );
-        } else if (state is CommonLoadingState) {
+         if (state is CommonLoadingState) {
           return Center(child: CircularProgressIndicator());
         } else if (state is CommonErrorState) {
           return Center(
@@ -59,7 +40,7 @@ class _SlideSectionState extends State<SlideSection> {
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) {
-                            return WebNews(url: news.articles![index].url);
+                            return WebNews(url: news[index]!.url);
                           },
                         ));
                       },
@@ -68,9 +49,9 @@ class _SlideSectionState extends State<SlideSection> {
                         child: Stack(children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(10),
-                            child: news.articles![index].urlToImage != null
+                            child: news[index]!.urlToImage != null
                                 ? Image.network(
-                                    news.articles![index].urlToImage.toString(),
+                                    news[index]!.urlToImage.toString(),
                                     height: 250,
                                     fit: BoxFit.cover,
                                     width: MediaQuery.of(context).size.width,
@@ -87,9 +68,9 @@ class _SlideSectionState extends State<SlideSection> {
                                 borderRadius: BorderRadius.only(
                                     bottomLeft: Radius.circular(20),
                                     bottomRight: Radius.circular(20))),
-                            child: news.articles![index].title != null
+                            child: news[index]!.title != null
                                 ? Text(
-                                    news.articles![index].title.toString(),
+                                    news[index]!.title.toString(),
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 20,
