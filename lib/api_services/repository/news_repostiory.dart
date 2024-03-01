@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:api_cache_manager/api_cache_manager.dart';
+import 'package:api_cache_manager/models/cache_db_model.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:khabar/api_services/model/news_model.dart';
@@ -11,9 +15,19 @@ class NewsRepository {
   NewsRepository({required this.dio});
   Future<Either<String, List<Articles>?>> getNews(String category) async {
     try {
+      var isCacheExists = await APICacheManager().isAPICacheKeyExist("NEWS");
+      if (isCacheExists) {
+        var cacheData = await APICacheManager().getCacheData("NEWS");
+        var model = json.decode(cacheData.syncData);
+        return Right(model);
+      }
+
       var res = await dio.get(
           "https://newsapi.org/v2/top-headlines?country=us&category=$category&apiKey=0ccd783fa02041f0a6af8a46923ba931");
       if (res.statusCode == 200) {
+        APICacheDBModel cacheDBModel = APICacheDBModel(
+            key: "NEWS", syncData: json.encode(res.data));
+        await APICacheManager().addCacheData(cacheDBModel);
         var model = NewsModel.fromJson(res.data);
         if (model.articles != null) {
           var newsList = model.articles!.toList();
@@ -37,8 +51,8 @@ class NewsRepository {
         return Right(null);
       }
     } on DioException catch (e) {
-      return Left(e.response?.data["message"] ?? "unable to fetch news");
-    } catch (e) {
+      return Left(e.response?.data["message"] ?? "Unable to fetch news");
+    } on Exception catch (e) {
       return Left(e.toString());
     }
   }
