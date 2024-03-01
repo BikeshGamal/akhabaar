@@ -43,7 +43,6 @@ dependencies:
   webview_flutter: ^3.0.1
   dartz: ^0.10.1
   shimmer: ^3.0.0
-  connectivity:
   api_cache_manager: ^1.0.2
 
 dev_dependencies:

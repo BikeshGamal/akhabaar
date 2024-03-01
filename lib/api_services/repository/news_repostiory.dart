@@ -23,7 +23,7 @@ class NewsRepository {
       }
 
       var res = await dio.get(
-          "https://newsapi.org/v2/top-headlines?country=us&category=$category&apiKey=0ccd783fa02041f0a6af8a46923ba931");
+          "https://newsapi.org/v2/top-headlines?country=us&category=$category&apiKey=f078e46f3a03493db681e040027eb2a0");
       if (res.statusCode == 200) {
         APICacheDBModel cacheDBModel = APICacheDBModel(
             key: "NEWS", syncData: json.encode(res.data));
